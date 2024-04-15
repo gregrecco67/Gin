@@ -455,7 +455,7 @@ void MSEGComponent::showBubbleMessage (const juce::Rectangle<int>& rc, const juc
         bubbleMessage->setAllowedPlacement (juce::BubbleComponent::above | 
                                             juce::BubbleComponent::below |
                                             juce::BubbleComponent::right |
-                                            juce::BubbleComponent::left |);
+                                            juce::BubbleComponent::left);
         parent->addAndMakeVisible (*bubbleMessage);
     }
 
