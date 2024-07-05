@@ -39,7 +39,7 @@ private:
         auto f = juce::Font ().withPointHeight (10.0).withExtraKerningFactor (0.25);
 
         g.setColour (findColour (PluginLookAndFeel::whiteColourId).withAlpha (0.6f));
-        g.drawText (name.toUpperCase(), getLocalBounds(), juce::Justification::centred);
+        g.drawText (name.toUpperCase(), getLocalBounds(), juce::Justification::left);
     }
 
     juce::String name;
