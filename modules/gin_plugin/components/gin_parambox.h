@@ -223,7 +223,7 @@ protected:
     void resized() override
     {
         auto headerBounds = getLocalBounds().removeFromTop (23);
-        headerBounds.removeFromLeft(12);
+        // headerBounds.removeFromLeft(12);
         header.setBounds (headerBounds);
         frame.setBounds (getLocalBounds());
 
