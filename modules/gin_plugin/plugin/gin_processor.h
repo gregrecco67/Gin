@@ -232,8 +232,9 @@ private:
 
     juce::String currentProgramName;
     int maxPrograms = 0;
+public:
     juce::OwnedArray<Program> programs;
-
+private:
     juce::Time lastStateLoad;
     juce::Time lastProgramsUpdated;
 
