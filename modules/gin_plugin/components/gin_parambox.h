@@ -163,6 +163,13 @@ public:
         addAndMakeVisible (c);
     }
 
+    void addModSource(juce::Component* c, bool isPoly)
+    {
+        c->setSize(12, 12);
+        modSources2.add(c);
+        addAndMakeVisible(c);
+    }
+
     void addControl (juce::Component* c)
     {
         controls.add (c);
@@ -235,6 +242,14 @@ protected:
             rc.removeFromRight (4);
         }
 
+        for (auto c : modSources2)
+        {
+            if (c->isVisible()) {
+                c->setBounds (rc.removeFromRight(12));
+                rc.removeFromRight(4);
+            }
+        }
+
         if (headers.size() > 0)
         {
             auto w = 50;
@@ -257,7 +272,7 @@ protected:
 
     ParamHeader header;
     juce::Component frame;
-    juce::OwnedArray<Component> controls, modSources;
+    juce::OwnedArray<Component> controls, modSources, modSources2;
     gin::Parameter::Ptr enableParam = nullptr;
 
     juce::OwnedArray<HeaderButton> headers;
