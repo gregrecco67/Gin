@@ -242,11 +242,16 @@ protected:
             rc.removeFromRight (4);
         }
 
-        for (auto c : modSources2)
-        {
-            if (c->isVisible()) {
-                c->setBounds (rc.removeFromRight(12));
-                rc.removeFromRight(4);
+        if(modSources2.size() > 0) {
+            auto rightmost = rc.removeFromRight(12);
+            rc.removeFromRight(4);
+            auto leftmost = rc.removeFromRight(12);
+            for (auto c : modSources2)
+            {
+                if (c->getProperties().contains("polysrc"))
+                    c->setBounds(rightmost);
+                else
+                    c->setBounds(leftmost);
             }
         }
 
