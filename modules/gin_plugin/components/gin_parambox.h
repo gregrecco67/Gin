@@ -39,7 +39,7 @@ private:
         auto f = juce::Font (juce::FontOptions()).withPointHeight (10.0).withExtraKerningFactor (0.25);
 
         g.setColour (findColour (PluginLookAndFeel::whiteColourId).withAlpha (0.6f));
-        g.drawText (name.toUpperCase(), getLocalBounds(), juce::Justification::centred);
+        g.drawText (name.toUpperCase(), getLocalBounds(), juce::Justification::left);
     }
 
     juce::String name;
@@ -229,11 +229,18 @@ protected:
 
         auto rc = header.getLocalBounds ().withSizeKeepingCentre (header.getWidth() - 6, 12);
 
+    
+        auto rightmost = rc.removeFromRight(12);
+        rc.removeFromRight(4);
+        auto leftmost = rc.removeFromRight(12);
         for (auto c : modSources)
         {
-            c->setBounds (rc.removeFromRight (12));
-            rc.removeFromRight (4);
+            if (c->getProperties().contains("polysrc"))
+                c->setBounds(rightmost);
+            else
+                c->setBounds(leftmost);
         }
+        
 
         if (headers.size() > 0)
         {
