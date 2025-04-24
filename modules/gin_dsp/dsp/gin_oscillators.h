@@ -9,6 +9,41 @@
 
 #pragma once
 
+
+struct Matrix {
+	inline friend Matrix operator*(const Matrix& m, const float s) { // scalar multiplication
+		return { m.a * s, m.b * s, m.c * s, m.d * s };
+	}
+	float a, b, c, d;
+};
+
+struct StereoMatrix {
+	Matrix left, right;
+	inline friend StereoMatrix operator*(const StereoMatrix& m, const float s) { // scalar multiplication
+			return { m.left * s, m.right * s };
+		}
+};
+
+struct StereoPosition {
+	float xL{ 0.f }, yL{ 0.f }, xR{ 0.f }, yR{ 0.f };
+	
+	inline friend StereoPosition operator*(const StereoPosition& p, const StereoMatrix& m) { // apply matrix to position
+		return {.xL = m.left.a * p.xL + m.left.b * p.yL,
+				.yL = m.left.c * p.xL + m.left.d * p.yL,
+				.xR = m.right.a * p.xR + m.right.b * p.yR,
+				.yR = m.right.c * p.xR + m.right.d * p.yR };
+	}
+
+	inline friend StereoPosition operator*(const StereoPosition& p, const float s) { // scalar multiplication
+			return { p.xL * s, p.yL * s, p.xR * s, p.yR * s };
+		}
+
+	inline StereoPosition operator+(const StereoPosition otherPos) {
+		return { this->xL + otherPos.xL, this->yL + otherPos.yL,
+			this->xR + otherPos.xR, this->yR + otherPos.yR };
+	}
+};
+
 //==============================================================================
 /** Virtual Analog Stereo oscillator.
 */
@@ -26,6 +61,12 @@ public:
         float fold = 0.0f;
         float asym = 0.0f;
     };
+
+    /*
+    	struct Params {
+        Wavetype wave = Wavetype::sine;
+		float tones{ 1.0 }, pan{ 0.f };
+    */
 
     void setSampleRate (double sr)  { sampleRate = sr; }
     void noteOn (float p = -1);
@@ -53,6 +94,38 @@ public:
             *l++ += s * params.leftGain;
             *r++ += s * params.rightGain;
 
+            phase += delta;
+            while (phase >= 1.0f)
+                phase -= 1.0f;
+        }
+    }
+
+    float qrtPhs(const float phase) {
+        float p2 = phase + 0.25f;
+        while (p2 >= 1.0f) {
+            p2 -= 1.0f;
+        }
+        return p2;
+    }
+
+    // TODO handle tones / harmonics spread
+
+    void renderPositions(float note, const Params& params, StereoPosition *positions, const int numSamples)) {
+        float freq = float (std::min (sampleRate / 2.0, 440.0 * std::pow (2.0, (note - 69.0) / 12.0)));
+        float delta = 1.0f / (float ((1.0f / freq) * sampleRate));
+        
+        for (int i = 0; i < numSamples; i++)
+        {
+            auto x = bllt.process (params.wave, note, phase, params.pw);
+            auto y = bllt.process (params.wave, note, qrtPhase(phase), params.pw);
+            postProcess (params, x);
+            postProcess (params, y);
+
+            positions[i].xL = x * params.leftGain;
+            positions[i].yL = y * params.leftGain;
+            positions[i].xR = x * params.rightGain;
+            positions[i].yR = y * params.rightGain;
+            
             phase += delta;
             while (phase >= 1.0f)
                 phase -= 1.0f;
