@@ -54,7 +54,7 @@ public:
 
     struct Params
     {
-        Wave wave = Wave::sawUp;
+        Wave wave = Wave::sine;
         float leftGain = 1.0;
         float rightGain = 1.0;
         float pw = 0.5;
@@ -100,8 +100,8 @@ public:
         }
     }
 
-    float qrtPhs(const float phase) {
-        float p2 = phase + 0.25f;
+    float qrtPhase(const float phase_) {
+        float p2 = phase_ + 0.25f;
         while (p2 >= 1.0f) {
             p2 -= 1.0f;
         }
@@ -110,7 +110,7 @@ public:
 
     // TODO handle tones / harmonics spread
 
-    void renderPositions(float note, const Params& params, StereoPosition *positions, const int numSamples)) {
+    void renderPositions(float note, const Params& params, StereoPosition *positions, const int numSamples) {
         float freq = float (std::min (sampleRate / 2.0, 440.0 * std::pow (2.0, (note - 69.0) / 12.0)));
         float delta = 1.0f / (float ((1.0f / freq) * sampleRate));
         
