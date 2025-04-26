@@ -32,7 +32,7 @@ public:
     };
 
     void setSampleRate (double sr)  { sampleRate = sr; }
-    void noteOn (float p = -1);
+	void noteOn (float p = -1);
 
     void process (float note, const Params& params, juce::AudioSampleBuffer& buffer)
     {
@@ -58,14 +58,14 @@ public:
             *r++ += s * params.rightGain;
 
             phase += delta;
-            while (phase >= 1.0f)
+            if (phase >= 1.0f)
                 phase -= 1.0f;
         }
     }
 
     float qrtPhase(const float phase_) {
         float p2 = phase_ + 0.25f;
-        while (p2 >= 1.0f) {
+        if (p2 >= 1.0f) {
             p2 -= 1.0f;
         }
         return p2;

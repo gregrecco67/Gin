@@ -256,7 +256,7 @@ public:
         return s1 + s2;
     }
 
-    inline float process (Wave wave, float note, float phase, float pw)
+    inline float process (Wave wave, float note, float phase, float pw = 0.5f)
     {
         switch (wave)
         {
