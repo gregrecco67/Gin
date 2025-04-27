@@ -216,7 +216,8 @@ BandLimitedLookupTables::BandLimitedLookupTables (double sampleRate_, int notesP
     sineTable (sine, float (sampleRate), 64, tableSize),
     sawUpTable (sawUp, float (sampleRate), notesPerTable, tableSize),
     sawDownTable (sawDown, float (sampleRate), notesPerTable, tableSize),
-    triangleTable (triangle, float (sampleRate), notesPerTable, tableSize)
+    triangleTable (triangle, float (sampleRate), notesPerTable, tableSize),
+	squareTable(squareWave, float(sampleRate), notesPerTable, tableSize)
 {
 
 }

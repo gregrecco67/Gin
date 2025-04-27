@@ -224,19 +224,8 @@ public:
 
     inline float processSquare (float note, float phase)
     {
-        float phaseUp   = phase + 0.25f;
-        float phaseDown = phase - 0.25f;
-
-        if (phaseUp   >= 1.0f) phaseUp   -= 1.0f;
-        if (phaseDown <  0.0f) phaseDown += 1.0f;
-
-        auto count = std::min (sawDownTable.tables.size(), sawDownTable.tables.size());
-        int tableIndex = juce::jlimit (0, int (count - 1), int ((note - 0.5) / count));
-
-        auto s1 = sawDownTable.getLinear (tableIndex, phaseDown);
-        auto s2 = sawUpTable.getLinear (tableIndex, phaseUp);
-
-        return s1 + s2;
+        int tableIndex = juce::jlimit (0, int(squareTable.tables.size() - 1), int ((note - 0.5) / squareTable.notesPerTable));
+        return squareTable.getLinear (tableIndex, phase);
     }
 
     inline float processPulse (float note, float phase, float pw)
@@ -283,7 +272,7 @@ public:
 private:
     double sampleRate = 0;
     int notesPerTable = 3, tableSize = 2048;
-    BandLimitedLookupTable sineTable, sawUpTable, sawDownTable, triangleTable;
+	BandLimitedLookupTable sineTable, sawUpTable, sawDownTable, triangleTable, squareTable;
     WhiteNoise whiteNoise;
     PinkNoise pinkNoise;
 };
