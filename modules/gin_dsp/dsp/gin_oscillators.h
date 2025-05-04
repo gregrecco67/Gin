@@ -62,19 +62,6 @@ public:
                 phase -= 1.0f;
         }
     }
-
-    float qrtPhase(const float phase_) {
-        float p2 = phase_ + 0.25f;
-        if (p2 >= 1.0f) {
-            p2 -= 1.0f;
-        }
-        return p2;
-    }
-
-    // TODO handle tones / harmonics spread
-
-    
-
     
     template<typename T>
     void postProcess (const Params& params, T& v)
