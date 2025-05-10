@@ -231,5 +231,6 @@ void BandLimitedLookupTables::setSampleRate (double sampleRate_)
         sawUpTable.reset (sawUp, float (sampleRate), notesPerTable, tableSize);
         sawDownTable.reset (sawDown, float (sampleRate), notesPerTable, tableSize);
         triangleTable.reset (triangle, float (sampleRate), notesPerTable, tableSize);
+		squareTable.reset(squareWave, float(sampleRate), notesPerTable, tableSize);
     }
 }
