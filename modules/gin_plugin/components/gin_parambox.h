@@ -27,24 +27,28 @@ public:
         repaint();
     }
 
-    bool right{false};
+    bool outline{true};
+
 private:
     void paint (juce::Graphics& g)
     {
         auto rc = getLocalBounds();
-        gradientRect (g, rc, findColour (PluginLookAndFeel::title1ColourId), findColour (PluginLookAndFeel::title2ColourId));
 
+        g.setColour(findColour(PluginLookAndFeel::title2ColourId));
+        g.fillRect(rc);
+
+        if (outline) {
+            g.setColour(findColour(PluginLookAndFeel::title1ColourId));
+            g.drawRect(rc);
+        }
+                
         g.setColour (findColour (PluginLookAndFeel::whiteColourId).withAlpha (0.15f));
         g.fillRect (rc.removeFromTop (1));
 
         auto f = juce::Font (juce::FontOptions()).withPointHeight (10.0).withExtraKerningFactor (0.25);
 
-        g.setColour (findColour (PluginLookAndFeel::whiteColourId).withAlpha (0.6f));
+        g.setColour (findColour (PluginLookAndFeel::whiteColourId).withAlpha (0.75f));
         g.drawText (name.toUpperCase(), getLocalBounds(), juce::Justification::left);
-        if (right) {
-	        g.setColour(juce::Colour(0xFF888888));
-	        g.fillRect(getWidth() - 1, 0, 1, getHeight());
-        }
     }
 
     juce::String name;
@@ -127,7 +131,11 @@ public:
     void setRight (bool r)
     { 
         right = r;
-        header.right = r;
+    }
+
+    void setOutline (bool o)
+    {
+        header.outline = o;
     }
 
     void addHeader (const juce::StringArray names, int idx, gin::Parameter::Ptr p)
@@ -235,12 +243,12 @@ protected:
 			findColour (gin::PluginLookAndFeel::matte2ColourId).darker(0.05f),
 			(float) rc.getX(), (float) rc.getY(), 
 			findColour (gin::PluginLookAndFeel::matte2ColourId).darker(0.08f),
-			(float) rc.getWidth(), (float) rc.getBottom(), false);
+			(float) rc.getX(), (float) rc.getBottom(), false);
 		gradient.addColour (0.3f, findColour (gin::PluginLookAndFeel::matte2ColourId).brighter(0.08f));
 		g.setGradientFill (gradient);
 		g.fillRect (rc);
         if (right) {
-			g.setColour(juce::Colour(0xFF888888));
+            g.setColour(findColour(PluginLookAndFeel::title1ColourId));
 			g.fillRect(getWidth() - 1, 0, 1, getHeight());
 		}
 
