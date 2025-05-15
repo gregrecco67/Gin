@@ -228,17 +228,11 @@ protected:
         frame.setBounds (getLocalBounds());
 
         auto rc = header.getLocalBounds ().withSizeKeepingCentre (header.getWidth() - 6, 12);
-
-    
-        auto rightmost = rc.removeFromRight(12);
         rc.removeFromRight(4);
-        auto leftmost = rc.removeFromRight(12);
         for (auto c : modSources)
         {
-            if (c->getProperties().contains("polysrc"))
-                c->setBounds(rightmost);
-            else
-                c->setBounds(leftmost);
+            c->setBounds (rc.removeFromRight (12));
+            rc.removeFromRight (4);
         }
         
 
