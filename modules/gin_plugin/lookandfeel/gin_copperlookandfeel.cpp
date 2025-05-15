@@ -18,7 +18,7 @@ CopperLookAndFeel::CopperLookAndFeel()
     setColour (matte1ColourId, juce::Colour (0xff18191C));
     setColour (matte2ColourId, juce::Colour (0xff131417));
     setColour (title1ColourId, juce::Colour (0xff2A2C30));
-    setColour (title2ColourId, juce::Colour (0xff25272B));
+    setColour (title2ColourId, juce::Colour (0xff000000));
     setColour (accentColourId, juce::Colour (0xffCC8866));
 
     setColour (WavetableComponent::phaseWaveColourId, juce::Colours::purple);
