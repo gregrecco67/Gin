@@ -17,6 +17,7 @@ public:
                     Parameter::Ptr phase, Parameter::Ptr enable);
     
     std::function<std::vector<float>()> phaseCallback;
+	std::function<float()> monoCallback;
 
 private:
     void paint (juce::Graphics& g) override;
@@ -34,6 +35,7 @@ private:
     juce::Path path;
     bool dirty = true;
     std::vector<float> curPhases;
+	float monoPhase{0.f};
     std::map<int,float> curve;
 
 private:

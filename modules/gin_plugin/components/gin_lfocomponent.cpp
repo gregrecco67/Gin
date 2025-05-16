@@ -92,7 +92,11 @@ void LFOComponent::paint (juce::Graphics& g)
     if (isEnabled())
     {
         auto lerp = [] (float t, float a, float b)  { return a + t * (b - a); };
-
+		float x = std::fmod(monoPhase / getNumSteps(), 1.0f) * rc.getWidth();
+		float t = x - int(x);
+		float y = lerp(t, curve[int(x)], curve[int(x) + 1]);
+		g.setColour(findColour(CopperLookAndFeel::accentColourId));
+		g.fillEllipse(rc.getX() + x - 2, y - 2, 4, 4);
         for (auto curPhase : curPhases)
         {
             float x = std::fmod (curPhase / getNumSteps(), 1.0f) * rc.getWidth();
@@ -109,12 +113,9 @@ void LFOComponent::timerCallback()
 {
     if (isEnabled() && phaseCallback)
     {
-        auto newPhases = phaseCallback();
-        if (newPhases != curPhases)
-        {
-            curPhases = newPhases;
-            repaint();
-        }
+		monoPhase = monoCallback();
+		curPhases = phaseCallback();
+        repaint();
     }
 }
 

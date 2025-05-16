@@ -136,7 +136,7 @@ public:
 
     float getCurrentPhase()
     {
-        return phase;
+        return curPhase;
     }
 
 private:
