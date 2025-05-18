@@ -61,7 +61,7 @@ public:
             f->clear();
     }
 
-    float getFrequency()            { return freq;      }
+    inline float getFrequency()    const        { return freq;      }
 
     void setParams (float freq_, float q_, float g_ = 0.0f)
     {

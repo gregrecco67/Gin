@@ -187,12 +187,12 @@ public:
         return updateCurrentValue();
     }
 
-    float getOutput()
+    float getOutput() const
     {
         return curFade * output * parameters.depth + parameters.offset;
     }
 
-    float getCurrentPhase()
+    float getCurrentPhase() const
     {
         return phase;
     }
