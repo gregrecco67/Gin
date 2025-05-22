@@ -48,7 +48,7 @@ public:
     //==============================================================================
     LFO()
     {
-        juce::Random rnd { 1 };
+        juce::Random rnd { juce::Time::currentTimeMillis() };
 
         for (int i = 0; i < 1000; i++)
             randomPoints.add (rnd.nextFloat() * 2 - 1);
