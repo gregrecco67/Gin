@@ -27,7 +27,7 @@ public:
         repaint();
     }
 
-    bool outline{true};
+    bool outline{true}, left{false}, right{true};
 
 private:
     void paint (juce::Graphics& g)
@@ -39,8 +39,14 @@ private:
 
         if (outline) {
             g.setColour(findColour(PluginLookAndFeel::title1ColourId));
-            g.drawRect(rc);
+			
+			g.fillRect(0, getHeight() - 1, getWidth(), 1);
+			g.fillRect(0, 0, getWidth(), 1);
+
         }
+		if (right) {
+			g.fillRect(getWidth() - 1, 0, 1, getHeight());
+		}
                 
         g.setColour (findColour (PluginLookAndFeel::whiteColourId).withAlpha (0.15f));
         g.fillRect (rc.removeFromTop (1));
@@ -133,6 +139,15 @@ public:
         right = r;
     }
 
+	void setHeaderLeft(bool l) {
+		header.left = l;
+	}
+
+	void setHeaderRight(bool l)
+	{
+		header.right = l;
+	}
+
     void setOutline (bool o)
     {
         header.outline = o;
@@ -213,7 +228,8 @@ public:
     ParamHeader& getHeader() { return header; }
     juce::Component& getFrame() { return frame; }
 
-    bool right{false};    
+    bool right{false}, bottom{false}, left{false};
+
 protected:
     void paramChanged () override
     {
@@ -247,9 +263,15 @@ protected:
 		gradient.addColour (0.3f, findColour (gin::PluginLookAndFeel::matte2ColourId).brighter(0.08f));
 		g.setGradientFill (gradient);
 		g.fillRect (rc);
+        g.setColour(findColour(PluginLookAndFeel::title1ColourId));
         if (right) {
-            g.setColour(findColour(PluginLookAndFeel::title1ColourId));
 			g.fillRect(getWidth() - 1, 0, 1, getHeight());
+		}
+		if (bottom) {
+			g.fillRect(0, getHeight() - 1, getWidth(), 1);
+		}
+		if (left) {
+			g.fillRect(0, 0, 1, getHeight());
 		}
 
     }
