@@ -15,8 +15,6 @@
 float sine (float phase, float unused1 = 0, float unused2 = 0);
 float triangle (float phase, float freq, float sampleRate);
 float sawUp (float phase, float freq, float sampleRate);
-float sawDown (float phase, float freq, float sampleRate);
-float pulse (float phase, float pw, float freq, float sampleRate);
 float squareWave (float phase, float freq, float sampleRate);
 
 //==============================================================================
@@ -215,46 +213,19 @@ public:
         int tableIndex = juce::jlimit (0, int (sawUpTable.tables.size() - 1), int ((note - 0.5) / sawUpTable.notesPerTable));
         return sawUpTable.getLinear (tableIndex, phase);
     }
-
-    inline float processSawDown (float note, float phase)
-    {
-        int tableIndex = juce::jlimit (0, int (sawDownTable.tables.size() - 1), int ((note - 0.5) / sawDownTable.notesPerTable));
-        return sawDownTable.getLinear (tableIndex, phase);
-    }
-
     inline float processSquare (float note, float phase)
     {
         int tableIndex = juce::jlimit (0, int(squareTable.tables.size() - 1), int ((note - 0.5) / squareTable.notesPerTable));
         return squareTable.getLinear (tableIndex, phase);
     }
 
-    inline float processPulse (float note, float phase, float pw)
-    {
-        float phaseUp   = phase + 0.5f * pw;
-        float phaseDown = phase - 0.5f * pw;
-
-        if (phaseUp   >= 1.0f) phaseUp   -= 1.0f;
-        if (phaseDown <  0.0f) phaseDown += 1.0f;
-
-        auto count = std::min (sawDownTable.tables.size(), sawDownTable.tables.size());
-        int tableIndex = juce::jlimit (0, int (count - 1), int ((note - 0.5) / count));
-
-        auto s1 = sawDownTable.getLinear (tableIndex, phaseDown);
-        auto s2 = sawUpTable.getLinear (tableIndex, phaseUp);
-
-        return s1 + s2;
-    }
-
     inline float process (Wave wave, float note, float phase, float pw = 0.5f)
     {
         switch (wave)
         {
-            case Wave::silence:     return 0;
             case Wave::sine:        return processSine (phase);
             case Wave::triangle:    return processTriangle (note, phase);
             case Wave::sawUp:       return processSawUp (note, phase);
-            case Wave::sawDown:     return processSawDown (note, phase);
-            case Wave::pulse:       return processPulse (note, phase, pw);
             case Wave::square:      return processSquare (note, phase);
             case Wave::whiteNoise:  return (float) whiteNoise.nextSample();
             case Wave::pinkNoise:   return (float) pinkNoise.nextSample();
@@ -272,7 +243,7 @@ public:
 private:
     double sampleRate = 0;
     int notesPerTable = 3, tableSize = 2048;
-	BandLimitedLookupTable sineTable, sawUpTable, sawDownTable, triangleTable, squareTable;
+	BandLimitedLookupTable sineTable, sawUpTable, triangleTable, squareTable;
     WhiteNoise whiteNoise;
     PinkNoise pinkNoise;
 };

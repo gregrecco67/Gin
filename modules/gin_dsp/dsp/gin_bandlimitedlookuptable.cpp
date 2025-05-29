@@ -215,7 +215,6 @@ BandLimitedLookupTables::BandLimitedLookupTables (double sampleRate_, int notesP
     tableSize (tableSize_),
     sineTable (sine, float (sampleRate), 64, tableSize),
     sawUpTable (sawUp, float (sampleRate), notesPerTable, tableSize),
-    sawDownTable (sawDown, float (sampleRate), notesPerTable, tableSize),
     triangleTable (triangle, float (sampleRate), notesPerTable, tableSize),
 	squareTable(squareWave, float(sampleRate), notesPerTable, tableSize)
 {
@@ -229,7 +228,6 @@ void BandLimitedLookupTables::setSampleRate (double sampleRate_)
         sampleRate = sampleRate_;
         sineTable.reset (sine, float (sampleRate), 64, tableSize);
         sawUpTable.reset (sawUp, float (sampleRate), notesPerTable, tableSize);
-        sawDownTable.reset (sawDown, float (sampleRate), notesPerTable, tableSize);
         triangleTable.reset (triangle, float (sampleRate), notesPerTable, tableSize);
 		squareTable.reset(squareWave, float(sampleRate), notesPerTable, tableSize);
     }

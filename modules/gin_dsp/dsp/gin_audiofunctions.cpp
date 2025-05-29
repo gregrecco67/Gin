@@ -44,18 +44,6 @@ void AudioFunctionHost::addOscillatorFunctions (gin::EquationParser& parser)
                             p->incPhase (float (note));
                             return lookupTables->processSawUp (float (note), p->phase);
                         });
-    parser.addFunction ("sawdown", [this] (int id, double note)
-                        {
-                            auto p = getFuncParams<OscState> (id, sampleRate);
-                            p->incPhase (float (note));
-                            return lookupTables->processSawDown (float (note), p->phase);
-                        });
-    parser.addFunction ("pulse", [this] (int id, double note, double pw)
-                        {
-                            auto p = getFuncParams<OscState> (id, sampleRate);
-                            p->incPhase (float (note));
-                            return lookupTables->processPulse (float (note), p->phase, float (pw));
-                        });
     parser.addFunction ("square", [this] (int id, double note)
                         {
                             auto p = getFuncParams<OscState> (id, sampleRate);

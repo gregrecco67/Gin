@@ -38,8 +38,6 @@ void DynamicsMeter::paint (juce::Graphics& g)
         auto dbIn  = range.convertFrom0to1 (float (x) / float ( std::max (1, getWidth() )));
         auto dbOut = dynamics.calcCurve (dbIn);
 
-        dbOut = dynamics.calcCurve (dbIn);
-
         float y = float (getHeight()) - range.convertTo0to1 (juce::jlimit (range.start, range.end, dbOut)) * float (getHeight ());
 
         if (juce::exactlyEqual (x, 0.0f))
