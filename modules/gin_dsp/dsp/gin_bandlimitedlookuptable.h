@@ -235,21 +235,21 @@ public:
         }
     }
 
-    inline mipp::Reg<float> process (Wave wave, float note, mipp::Reg<float> phase, float pw = 0.5f)
-    {
-        switch (wave)
-        {
-            case Wave::sine:        return sineTable.processLinear (phase);
-            case Wave::triangle:    return triangleTable.processLinear (note, phase);
-            case Wave::sawUp:       return sawUpTable.processLinear (note, phase);
-            case Wave::square:      return squareTable.processLinear (note, phase);
-            case Wave::whiteNoise:  return mipp::Reg<float>(whiteNoise.nextSample());
-            case Wave::pinkNoise:   return mipp::Reg<float>(pinkNoise.nextSample());
-            default:
-                jassertfalse;
-                return mipp::Reg<float>(0.0f);
-        }
-    }
+    // inline mipp::Reg<float> process (Wave wave, float note, mipp::Reg<float> phase, float pw = 0.5f)
+    // {
+    //     switch (wave)
+    //     {
+    //         case Wave::sine:        return sineTable.processLinear (phase);
+    //         case Wave::triangle:    return triangleTable.processLinear (note, phase);
+    //         case Wave::sawUp:       return sawUpTable.processLinear (note, phase);
+    //         case Wave::square:      return squareTable.processLinear (note, phase);
+    //         case Wave::whiteNoise:  return mipp::Reg<float>(whiteNoise.nextSample());
+    //         case Wave::pinkNoise:   return mipp::Reg<float>(pinkNoise.nextSample());
+    //         default:
+    //             jassertfalse;
+    //             return mipp::Reg<float>(0.0f);
+    //     }
+    // }
 
     double getSampleRate()
     {
